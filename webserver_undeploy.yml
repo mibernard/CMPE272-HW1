@@ -1,0 +1,20 @@
+---
+- name: Un-deploy web server from VM1 and VM2
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Remove custom index.html file
+      file:
+        path: /var/www/html/index.html
+        state: absent
+
+    - name: Stop Apache service
+      service:
+        name: apache2
+        state: stopped
+
+    - name: Uninstall Apache web server
+      apt:
+        name: apache2
+        state: absent
+        purge: yes
